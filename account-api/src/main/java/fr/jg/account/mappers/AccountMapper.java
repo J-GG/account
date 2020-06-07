@@ -1,7 +1,7 @@
 package fr.jg.account.mappers;
 
-import fr.jg.account.dao.AccountDao;
 import fr.jg.account.domain.Account;
+import fr.jg.account.dto.AccountDto;
 import fr.jg.account.models.AccountModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -16,13 +16,13 @@ public interface AccountMapper {
 
     List<Account> modelToDomain(List<AccountModel> accountModels);
 
-    AccountDao domainToDao(Account account);
+    AccountDto domainToDao(Account account);
 
-    List<AccountDao> domainToDao(List<Account> accounts);
+    List<AccountDto> domainToDao(List<Account> accounts);
 
-    Account daoToDomain(AccountDao accountDao);
+    Account daoToDomain(AccountDto accountDto);
 
-    List<Account> daoToDomain(List<AccountDao> accountDaos);
+    List<Account> daoToDomain(List<AccountDto> accountDtos);
 
     AccountModel domainToModel(Account account);
 

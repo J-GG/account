@@ -1,11 +1,11 @@
-package fr.jg.account.dao;
+package fr.jg.account.dto;
 
 import org.springframework.hateoas.EntityModel;
 
 import java.util.Currency;
 import java.util.UUID;
 
-public class AccountDao extends EntityModel<AccountDao> {
+public class AccountDto extends EntityModel<AccountDto> {
     private UUID id;
 
     private String name;

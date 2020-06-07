@@ -1,6 +1,6 @@
 package fr.jg.account.controllers;
 
-import fr.jg.account.dao.TransactionDao;
+import fr.jg.account.dto.TransactionDto;
 import fr.jg.account.mappers.TransactionMapper;
 import fr.jg.account.ports.primary.TransactionBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ public class TransactionController {
     TransactionBusiness transactionBusiness;
 
     @GetMapping
-    public CollectionModel<TransactionDao> getTransactions() throws NoSuchMethodException {
-        final CollectionModel<TransactionDao> transactionDaos = CollectionModel.of(TransactionMapper.INSTANCE.domainToDao(this.transactionBusiness.getAll()));
+    public CollectionModel<TransactionDto> getTransactions() throws NoSuchMethodException {
+        final CollectionModel<TransactionDto> transactionDaos = CollectionModel.of(TransactionMapper.INSTANCE.domainToDao(this.transactionBusiness.getAll()));
         transactionDaos.add(linkTo(TransactionController.class.getMethod("getTransactions", UUID.class)).withSelfRel());
 
         return transactionDaos;

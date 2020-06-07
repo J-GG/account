@@ -1,7 +1,7 @@
 package fr.jg.account.controllers;
 
-import fr.jg.account.dao.AccountDao;
-import fr.jg.account.dao.TransactionDao;
+import fr.jg.account.dto.AccountDto;
+import fr.jg.account.dto.TransactionDto;
 import fr.jg.account.mappers.AccountMapper;
 import fr.jg.account.mappers.TransactionMapper;
 import fr.jg.account.ports.primary.AccountBusiness;
@@ -30,11 +30,11 @@ public class AccountController {
     TransactionBusiness transactionBusiness;
 
     @GetMapping
-    public CollectionModel<AccountDao> getAccounts() throws NoSuchMethodException {
-        final CollectionModel<AccountDao> accountDaos = CollectionModel.of(AccountMapper.INSTANCE.domainToDao(this.accountBusiness.getAll()));
-        for (final AccountDao accountDao : accountDaos) {
-            accountDao.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountDao.getId()).withRel("transactions"));
-            accountDao.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountDao.getId()).withSelfRel());
+    public CollectionModel<AccountDto> getAccounts() throws NoSuchMethodException {
+        final CollectionModel<AccountDto> accountDaos = CollectionModel.of(AccountMapper.INSTANCE.domainToDao(this.accountBusiness.getAll()));
+        for (final AccountDto accountDto : accountDaos) {
+            accountDto.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountDto.getId()).withRel("transactions"));
+            accountDto.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountDto.getId()).withSelfRel());
         }
         CollectionModel.of(accountDaos).add(linkTo(AccountController.class).withSelfRel());
 
@@ -42,8 +42,8 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<AccountDao> getAccount(@PathVariable("id") final UUID accountId) throws NoSuchMethodException {
-        final EntityModel<AccountDao> account = EntityModel.of(AccountMapper.INSTANCE.domainToDao(this.accountBusiness.get(accountId)));
+    public EntityModel<AccountDto> getAccount(@PathVariable("id") final UUID accountId) throws NoSuchMethodException {
+        final EntityModel<AccountDto> account = EntityModel.of(AccountMapper.INSTANCE.domainToDao(this.accountBusiness.get(accountId)));
         account.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountId).withRel("transactions"));
         account.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withSelfRel());
 
@@ -51,10 +51,10 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/transaction")
-    public CollectionModel<TransactionDao> getTransactions(@PathVariable("id") final UUID accountId) throws NoSuchMethodException {
-        final CollectionModel<TransactionDao> transactionDaos = CollectionModel.of(TransactionMapper.INSTANCE.domainToDao(this.transactionBusiness.getAllByAccountId(accountId)));
-        for (final TransactionDao transactionDao : transactionDaos) {
-            transactionDao.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withRel("account"));
+    public CollectionModel<TransactionDto> getTransactions(@PathVariable("id") final UUID accountId) throws NoSuchMethodException {
+        final CollectionModel<TransactionDto> transactionDaos = CollectionModel.of(TransactionMapper.INSTANCE.domainToDao(this.transactionBusiness.getAllByAccountId(accountId)));
+        for (final TransactionDto transactionDto : transactionDaos) {
+            transactionDto.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withRel("account"));
         }
         transactionDaos.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountId).withSelfRel());
 
