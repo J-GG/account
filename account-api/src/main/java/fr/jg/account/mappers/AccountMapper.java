@@ -3,28 +3,27 @@ package fr.jg.account.mappers;
 import fr.jg.account.domain.Account;
 import fr.jg.account.dto.AccountDto;
 import fr.jg.account.models.AccountModel;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
-public interface AccountMapper {
-    AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
+@Mapper(componentModel = "spring", uses = TransactionMapper.class)
+public abstract class AccountMapper {
 
-    Account modelToDomain(AccountModel accountModel);
+    public abstract Account modelToDomain(AccountModel accountModel, @Context CycleAvoidingMappingContext context);
 
-    List<Account> modelToDomain(List<AccountModel> accountModels);
+    public abstract List<Account> modelToDomain(List<AccountModel> accountModels, @Context CycleAvoidingMappingContext context);
 
-    AccountDto domainToDao(Account account);
+    public abstract AccountDto domainToDto(Account account);
 
-    List<AccountDto> domainToDao(List<Account> accounts);
+    public abstract List<AccountDto> domainToDto(List<Account> accounts);
 
-    Account daoToDomain(AccountDto accountDto);
+    public abstract Account dtoToDomain(AccountDto accountDto);
 
-    List<Account> daoToDomain(List<AccountDto> accountDtos);
+    public abstract List<Account> dtoToDomain(List<AccountDto> accountDtos);
 
-    AccountModel domainToModel(Account account);
+    public abstract AccountModel domainToModel(Account account, @Context CycleAvoidingMappingContext context);
 
-    List<AccountModel> domainToModel(List<Account> accounts);
+    public abstract List<AccountModel> domainToModel(List<Account> accounts, @Context CycleAvoidingMappingContext context);
 }

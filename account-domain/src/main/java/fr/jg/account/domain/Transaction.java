@@ -19,6 +19,10 @@ public class Transaction {
         return this.id;
     }
 
+    public void setId(final UUID id) {
+        this.id = id;
+    }
+
     public LocalDate getDate() {
         return this.date;
     }
@@ -41,5 +45,13 @@ public class Transaction {
 
     public void setNote(final String note) {
         this.note = note;
+    }
+
+    public Account getAccount() {
+        return this.account;
+    }
+
+    public void setAccount(final Account account) {
+        this.account = account;
     }
 }

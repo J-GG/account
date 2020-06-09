@@ -11,7 +11,7 @@ import java.util.UUID;
 @Table(name = "account")
 public class AccountModel {
     @Id
-    @GeneratedValue(generator = "uuid2")
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -19,11 +19,15 @@ public class AccountModel {
 
     private Currency currency;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<TransactionModel> transactions;
 
     public UUID getId() {
         return this.id;
+    }
+
+    public void setId(final UUID id) {
+        this.id = id;
     }
 
     public String getName() {

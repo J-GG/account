@@ -1,12 +1,12 @@
 package fr.jg.account.dto;
 
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class TransactionDto extends EntityModel<TransactionDto> {
+public class TransactionDto extends RepresentationModel<TransactionDto> {
     private UUID id;
 
     private LocalDate date;

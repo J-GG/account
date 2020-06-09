@@ -1,6 +1,7 @@
 package fr.jg.account.business;
 
 import fr.jg.account.domain.Account;
+import fr.jg.account.domain.Transaction;
 import fr.jg.account.ports.primary.AccountBusiness;
 import fr.jg.account.ports.secondary.AccountService;
 
@@ -21,6 +22,13 @@ public class AccountBusinessImpl implements AccountBusiness {
     }
 
     @Override
+    public Account addTransactionToAccount(final UUID accountId, final Transaction transaction) {
+        final Account account = this.accountService.get(accountId);
+        account.addTransaction(transaction);
+        return this.accountService.update(account);
+    }
+
+    @Override
     public List<Account> getAll() {
         return this.accountService.getAll();
     }
@@ -28,5 +36,10 @@ public class AccountBusinessImpl implements AccountBusiness {
     @Override
     public Account get(final UUID accountId) {
         return this.accountService.get(accountId);
+    }
+
+    @Override
+    public void delete(final UUID accountId) {
+        this.accountService.delete(accountId);
     }
 }

@@ -16,11 +16,6 @@ public class TransactionBusinessImpl implements TransactionBusiness {
     }
 
     @Override
-    public Transaction create(final Transaction transaction) {
-        return this.transactionService.create(transaction);
-    }
-
-    @Override
     public List<Transaction> getAll() {
         return this.transactionService.getAll();
     }
@@ -33,5 +28,10 @@ public class TransactionBusinessImpl implements TransactionBusiness {
     @Override
     public Transaction get(final UUID transactionId) {
         return this.transactionService.get(transactionId);
+    }
+
+    @Override
+    public void delete(final UUID transactionId) {
+        this.transactionService.delete(transactionId);
     }
 }

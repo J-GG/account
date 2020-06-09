@@ -1,11 +1,11 @@
 package fr.jg.account.dto;
 
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Currency;
 import java.util.UUID;
 
-public class AccountDto extends EntityModel<AccountDto> {
+public class AccountDto extends RepresentationModel<AccountDto> {
     private UUID id;
 
     private String name;
@@ -14,6 +14,10 @@ public class AccountDto extends EntityModel<AccountDto> {
 
     public UUID getId() {
         return this.id;
+    }
+
+    public void setId(final UUID id) {
+        this.id = id;
     }
 
     public String getName() {

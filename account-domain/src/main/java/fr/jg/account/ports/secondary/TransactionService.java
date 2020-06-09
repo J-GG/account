@@ -13,4 +13,6 @@ public interface TransactionService {
     List<Transaction> getAllByAccountId(UUID id);
 
     Transaction get(UUID transactionId);
+
+    void delete(UUID transactionId);
 }

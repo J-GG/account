@@ -4,7 +4,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Table(name = "transaction")
 public class TransactionModel extends RepresentationModel<TransactionModel> {
     @Id
-    @GeneratedValue(generator = "uuid2")
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
@@ -30,6 +29,10 @@ public class TransactionModel extends RepresentationModel<TransactionModel> {
         return this.id;
     }
 
+    public void setId(final UUID id) {
+        this.id = id;
+    }
+
     public LocalDate getDate() {
         return this.date;
     }
@@ -38,12 +41,12 @@ public class TransactionModel extends RepresentationModel<TransactionModel> {
         this.date = date;
     }
 
-    public BigDecimal getAmount() {
-        return BigDecimal.valueOf(this.amount).divide(BigDecimal.valueOf(Math.pow(10, this.account.getCurrency().getDefaultFractionDigits())));
+    public Long getAmount() {
+        return this.amount;
     }
 
-    public void setAmount(final BigDecimal amount) {
-        this.amount = amount.multiply(BigDecimal.valueOf(this.account.getCurrency().getDefaultFractionDigits())).longValue();
+    public void setAmount(final Long amount) {
+        this.amount = amount;
     }
 
     public String getNote() {
@@ -52,5 +55,13 @@ public class TransactionModel extends RepresentationModel<TransactionModel> {
 
     public void setNote(final String note) {
         this.note = note;
+    }
+
+    public AccountModel getAccount() {
+        return this.account;
+    }
+
+    public void setAccount(final AccountModel account) {
+        this.account = account;
     }
 }
