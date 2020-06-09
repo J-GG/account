@@ -68,6 +68,7 @@ public class AccountController {
             transactionDto.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withRel("account"));
             transactionDto.add(linkTo(TransactionController.class.getMethod("getTransaction", UUID.class), transactionDto.getId()).withSelfRel());
         }
+        transactionDtos.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withRel("account"));
         transactionDtos.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountId).withSelfRel());
 
         return transactionDtos;

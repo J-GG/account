@@ -1,6 +1,5 @@
 package fr.jg.account.domain;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -17,10 +16,6 @@ public class Account {
 
     public Account() {
         this.transactions = new ArrayList<>();
-    }
-
-    public BigDecimal getBalance() {
-        return this.transactions.stream().map(Transaction::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public UUID getId() {
