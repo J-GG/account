@@ -14,5 +14,7 @@ public interface AccountService {
 
     Account get(UUID accountId);
 
+    List<Account> getByUserId(UUID userId);
+
     void delete(UUID accountId);
 }

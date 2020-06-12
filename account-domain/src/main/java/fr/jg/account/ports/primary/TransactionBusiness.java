@@ -9,7 +9,7 @@ public interface TransactionBusiness {
 
     List<Transaction> getAll();
 
-    List<Transaction> getAllByAccountId(UUID id);
+    List<Transaction> getByAccountId(UUID id);
 
     Transaction get(UUID transactionId);
 

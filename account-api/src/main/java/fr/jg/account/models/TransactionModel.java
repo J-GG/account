@@ -1,15 +1,15 @@
 package fr.jg.account.models;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "transaction")
-public class TransactionModel extends RepresentationModel<TransactionModel> {
+@Table(name = "transactions")
+public class TransactionModel {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -19,11 +19,14 @@ public class TransactionModel extends RepresentationModel<TransactionModel> {
 
     private Long amount;
 
-    private String note;
+    private String comment;
 
     @ManyToOne(targetEntity = AccountModel.class)
     @JoinColumn(nullable = false)
     private AccountModel account;
+
+    @ManyToOne(targetEntity = CategoryModel.class)
+    private CategoryModel category;
 
     public UUID getId() {
         return this.id;
@@ -49,12 +52,12 @@ public class TransactionModel extends RepresentationModel<TransactionModel> {
         this.amount = amount;
     }
 
-    public String getNote() {
-        return this.note;
+    public String getComment() {
+        return this.comment;
     }
 
-    public void setNote(final String note) {
-        this.note = note;
+    public void setComment(final String comment) {
+        this.comment = comment;
     }
 
     public AccountModel getAccount() {
@@ -63,5 +66,13 @@ public class TransactionModel extends RepresentationModel<TransactionModel> {
 
     public void setAccount(final AccountModel account) {
         this.account = account;
+    }
+
+    public CategoryModel getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(final CategoryModel category) {
+        this.category = category;
     }
 }

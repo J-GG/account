@@ -39,6 +39,11 @@ public class AccountBusinessImpl implements AccountBusiness {
     }
 
     @Override
+    public List<Account> getByUserId(final UUID userId) {
+        return this.accountService.getByUserId(userId);
+    }
+
+    @Override
     public void delete(final UUID accountId) {
         this.accountService.delete(accountId);
     }

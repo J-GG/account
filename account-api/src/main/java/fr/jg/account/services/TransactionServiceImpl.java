@@ -15,13 +15,13 @@ import java.util.UUID;
 public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
-    TransactionRepository transactionRepository;
+    private TransactionRepository transactionRepository;
 
     @Autowired
-    TransactionMapper transactionMapper;
+    private TransactionMapper transactionMapper;
 
     @Autowired
-    CycleAvoidingMappingContext mappingContext;
+    private CycleAvoidingMappingContext mappingContext;
 
     @Override
     public Transaction create(final Transaction transaction) {
@@ -34,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllByAccountId(final UUID accountId) {
+    public List<Transaction> getByAccountId(final UUID accountId) {
         return this.transactionMapper.modelToDomain(this.transactionRepository.findByAccountId(accountId), this.mappingContext);
     }
 
@@ -44,7 +44,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void delete(UUID transactionId) {
+    public void delete(final UUID transactionId) {
         this.transactionRepository.deleteById(transactionId);
     }
 }

@@ -1,5 +1,6 @@
 package fr.jg.account.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -8,9 +9,13 @@ import java.util.UUID;
 public class Account {
     private UUID id;
 
+    private User user;
+
     private String name;
 
     private Currency currency;
+
+    private BigDecimal yieldRate;
 
     private List<Transaction> transactions;
 
@@ -24,6 +29,14 @@ public class Account {
 
     public void setId(final UUID id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -40,6 +53,14 @@ public class Account {
 
     public void setCurrency(final Currency currency) {
         this.currency = currency;
+    }
+
+    public BigDecimal getYieldRate() {
+        return yieldRate;
+    }
+
+    public void setYieldRate(final BigDecimal yieldRate) {
+        this.yieldRate = yieldRate;
     }
 
     public List<Transaction> getTransactions() {

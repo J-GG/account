@@ -21,8 +21,8 @@ public class TransactionBusinessImpl implements TransactionBusiness {
     }
 
     @Override
-    public List<Transaction> getAllByAccountId(final UUID accountId) {
-        return this.transactionService.getAllByAccountId(accountId);
+    public List<Transaction> getByAccountId(final UUID accountId) {
+        return this.transactionService.getByAccountId(accountId);
     }
 
     @Override

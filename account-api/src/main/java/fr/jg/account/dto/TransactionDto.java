@@ -1,11 +1,13 @@
 package fr.jg.account.dto;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Relation(collectionRelation = "transactions")
 public class TransactionDto extends RepresentationModel<TransactionDto> {
     private UUID id;
 
@@ -13,7 +15,11 @@ public class TransactionDto extends RepresentationModel<TransactionDto> {
 
     private BigDecimal amount;
 
-    private String note;
+    private String comment;
+
+    private LinkedResource<UUID> account;
+
+    private LinkedResource<Long> category;
 
     public UUID getId() {
         return this.id;
@@ -39,11 +45,27 @@ public class TransactionDto extends RepresentationModel<TransactionDto> {
         this.amount = amount;
     }
 
-    public String getNote() {
-        return this.note;
+    public String getComment() {
+        return this.comment;
     }
 
-    public void setNote(final String note) {
-        this.note = note;
+    public void setComment(final String comment) {
+        this.comment = comment;
+    }
+
+    public LinkedResource<UUID> getAccount() {
+        return account;
+    }
+
+    public void setAccount(final LinkedResource<UUID> account) {
+        this.account = account;
+    }
+
+    public LinkedResource<Long> getCategory() {
+        return category;
+    }
+
+    public void setCategory(final LinkedResource<Long> category) {
+        this.category = category;
     }
 }

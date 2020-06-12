@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    AccountMapper accountMapper;
+    private AccountMapper accountMapper;
 
     @Autowired
-    CycleAvoidingMappingContext mappingContext;
+    private CycleAvoidingMappingContext mappingContext;
 
     @Override
     public Account create(final Account account) {
@@ -42,6 +42,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account get(final UUID accountId) {
         return this.accountRepository.findById(accountId).map(account -> this.accountMapper.modelToDomain(account, this.mappingContext)).orElseThrow();
+    }
+
+    @Override
+    public List<Account> getByUserId(final UUID userId) {
+        return this.accountMapper.modelToDomain(this.accountRepository.findByUserId(userId), this.mappingContext);
     }
 
     @Override

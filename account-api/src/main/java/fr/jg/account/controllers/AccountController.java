@@ -34,40 +34,21 @@ public class AccountController {
     AccountMapper accountMapper;
 
     @GetMapping
-    public CollectionModel<AccountDto> getAccounts() throws NoSuchMethodException {
+    public CollectionModel<AccountDto> getAccounts() {
         final CollectionModel<AccountDto> accountDtos = CollectionModel.of(this.accountMapper.domainToDto(this.accountBusiness.getAll()));
         accountDtos.add(linkTo(AccountController.class).withSelfRel());
-        for (final AccountDto accountDto : accountDtos) {
-            accountDto.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountDto.getId()).withRel("transactions"));
-            accountDto.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountDto.getId()).withSelfRel());
-        }
 
         return accountDtos;
     }
 
-    @PostMapping
-    public AccountDto postAccount(@RequestBody final AccountDto accountDto) throws NoSuchMethodException {
-        final Account account = this.accountBusiness.create(this.accountMapper.dtoToDomain(accountDto));
-
-        return this.getAccount(account.getId());
-    }
-
     @GetMapping("/{id}")
-    public AccountDto getAccount(@PathVariable("id") final UUID accountId) throws NoSuchMethodException {
-        final AccountDto account = this.accountMapper.domainToDto(this.accountBusiness.get(accountId));
-        account.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountId).withRel("transactions"));
-        account.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withSelfRel());
-
-        return account;
+    public AccountDto getAccount(@PathVariable("id") final UUID accountId) {
+        return this.accountMapper.domainToDto(this.accountBusiness.get(accountId));
     }
 
     @GetMapping("/{id}/transactions")
     public CollectionModel<TransactionDto> getTransactions(@PathVariable("id") final UUID accountId) throws NoSuchMethodException {
-        final CollectionModel<TransactionDto> transactionDtos = CollectionModel.of(this.transactionMapper.domainToDto(this.transactionBusiness.getAllByAccountId(accountId)));
-        for (final TransactionDto transactionDto : transactionDtos) {
-            transactionDto.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withRel("account"));
-            transactionDto.add(linkTo(TransactionController.class.getMethod("getTransaction", UUID.class), transactionDto.getId()).withSelfRel());
-        }
+        final CollectionModel<TransactionDto> transactionDtos = CollectionModel.of(this.transactionMapper.domainToDto(this.transactionBusiness.getByAccountId(accountId)));
         transactionDtos.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), accountId).withRel("account"));
         transactionDtos.add(linkTo(AccountController.class.getMethod("getTransactions", UUID.class), accountId).withSelfRel());
 
@@ -75,6 +56,7 @@ public class AccountController {
     }
 
     @PostMapping("/{id}/transactions")
+    @ResponseStatus(HttpStatus.CREATED)
     public CollectionModel<TransactionDto> postTransactionToAccount(@PathVariable("id") final UUID accountId, @RequestBody final TransactionDto transactionDto) throws NoSuchMethodException {
         final Account account = this.accountBusiness.addTransactionToAccount(accountId, this.transactionMapper.dtoToDomain(transactionDto));
 

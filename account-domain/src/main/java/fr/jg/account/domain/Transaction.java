@@ -11,9 +11,11 @@ public class Transaction {
 
     private BigDecimal amount;
 
-    private String note;
+    private String comment;
 
     private Account account;
+
+    private Category category;
 
     public UUID getId() {
         return this.id;
@@ -39,12 +41,12 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getNote() {
-        return this.note;
+    public String getComment() {
+        return this.comment;
     }
 
-    public void setNote(final String note) {
-        this.note = note;
+    public void setComment(final String comment) {
+        this.comment = comment;
     }
 
     public Account getAccount() {
@@ -53,5 +55,13 @@ public class Transaction {
 
     public void setAccount(final Account account) {
         this.account = account;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(final Category category) {
+        this.category = category;
     }
 }

@@ -1,6 +1,5 @@
 package fr.jg.account.controllers;
 
-import fr.jg.account.domain.Transaction;
 import fr.jg.account.dto.TransactionDto;
 import fr.jg.account.mappers.TransactionMapper;
 import fr.jg.account.ports.primary.TransactionBusiness;
@@ -18,27 +17,22 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class TransactionController {
 
     @Autowired
-    TransactionBusiness transactionBusiness;
+    private TransactionBusiness transactionBusiness;
 
     @Autowired
-    TransactionMapper transactionMapper;
+    private TransactionMapper transactionMapper;
 
     @GetMapping
-    public CollectionModel<TransactionDto> getTransactions() throws NoSuchMethodException {
+    public CollectionModel<TransactionDto> getTransactions() {
         final CollectionModel<TransactionDto> transactionDtos = CollectionModel.of(this.transactionMapper.domainToDto(this.transactionBusiness.getAll()));
-        transactionDtos.add(linkTo(TransactionController.class.getMethod("getTransactions")).withSelfRel());
+        transactionDtos.add(linkTo(TransactionController.class).withSelfRel());
 
         return transactionDtos;
     }
 
     @GetMapping("/{id}")
-    public TransactionDto getTransaction(@PathVariable("id") final UUID transactionId) throws NoSuchMethodException {
-        final Transaction transaction = this.transactionBusiness.get(transactionId);
-        final TransactionDto transactionDto = this.transactionMapper.domainToDto(transaction);
-        transactionDto.add(linkTo(AccountController.class.getMethod("getAccount", UUID.class), transaction.getAccount().getId()).withSelfRel());
-        transactionDto.add(linkTo(TransactionController.class.getMethod("getTransaction", UUID.class), transactionId).withSelfRel());
-
-        return transactionDto;
+    public TransactionDto getTransaction(@PathVariable("id") final UUID transactionId) {
+        return transactionMapper.domainToDto(this.transactionBusiness.get(transactionId));
     }
 
     @DeleteMapping("/{id}")
