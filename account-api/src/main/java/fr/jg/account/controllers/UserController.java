@@ -8,6 +8,7 @@ import fr.jg.account.mappers.UserMapper;
 import fr.jg.account.ports.primary.AccountBusiness;
 import fr.jg.account.ports.primary.UserBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,10 @@ public class UserController {
 
     @Autowired
     private AccountMapper accountMapper;
+
+
+    @Autowired
+    MessageSource messageSource;
 
     @GetMapping
     public CollectionModel<UserDto> getUsers() {
