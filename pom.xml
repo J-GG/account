@@ -13,7 +13,7 @@
     <groupId>fr.jg</groupId>
     <artifactId>account</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    
+
     <modules>
         <module>account-api</module>
         <module>account-domain</module>
