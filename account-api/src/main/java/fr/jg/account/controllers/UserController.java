@@ -75,10 +75,4 @@ public class UserController {
 
         return this.getAccounts(user.getId());
     }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") final UUID userId) {
-        this.userBusiness.delete(userId);
-    }
 }

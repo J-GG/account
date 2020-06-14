@@ -43,7 +43,7 @@ public abstract class TransactionMapper {
 
     @AfterMapping
     void afterMappingDomainToModel(final TransactionModel transactionModel, @MappingTarget final Transaction transaction) {
-        transaction.setAmount(new BigDecimal(transactionModel.getAmount()).divide(BigDecimal.valueOf(Math.pow(10, transactionModel.getAccount().getCurrency().getDefaultFractionDigits()))));
+        transaction.setAmount(BigDecimal.valueOf(transactionModel.getAmount()).divide(BigDecimal.valueOf(Math.pow(10, transactionModel.getAccount().getCurrency().getDefaultFractionDigits()))));
     }
 
     @AfterMapping

@@ -1,5 +1,6 @@
 package fr.jg.account.mappers;
 
+import fr.jg.account.configuration.Configuration;
 import fr.jg.account.controllers.AccountController;
 import fr.jg.account.controllers.UserController;
 import fr.jg.account.domain.Account;
@@ -11,7 +12,6 @@ import fr.jg.account.models.AccountModel;
 import org.mapstruct.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -41,12 +41,12 @@ public abstract class AccountMapper {
 
     @AfterMapping
     void afterMappingDomainToModel(final Account account, @MappingTarget final AccountModel accountModel) {
-        accountModel.setYieldRate(account.getYieldRate().multiply(BigDecimal.valueOf(1000)).longValue());
+        accountModel.setYieldRate(account.getYieldRate().multiply(BigDecimal.valueOf(Math.pow(10, Configuration.INTERESTED_RATES_PRECISION))).longValue());
     }
 
     @AfterMapping
     void afterMappingModelToDomain(final AccountModel accountModel, @MappingTarget final Account account) {
-        account.setYieldRate(new BigDecimal(accountModel.getYieldRate()).divide(BigDecimal.valueOf(1000)));
+        account.setYieldRate(BigDecimal.valueOf(accountModel.getYieldRate()).divide(BigDecimal.valueOf(Math.pow(10, Configuration.INTERESTED_RATES_PRECISION))));
     }
 
     @AfterMapping
@@ -60,7 +60,7 @@ public abstract class AccountMapper {
 
         accountDto.setEstimatedAnnualYield(accountDto.getBalance()
                 .multiply(account.getYieldRate())
-                .divide(new BigDecimal(100), account.getCurrency().getDefaultFractionDigits(), RoundingMode.HALF_EVEN)
+                .divide(BigDecimal.valueOf(100), account.getCurrency().getDefaultFractionDigits(), Configuration.ROUNDING_MODE)
         );
 
         try {

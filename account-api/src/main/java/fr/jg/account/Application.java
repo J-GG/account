@@ -1,13 +1,7 @@
 package fr.jg.account;
 
-import fr.jg.account.business.AccountBusinessImpl;
-import fr.jg.account.business.CategoryBusinessImpl;
-import fr.jg.account.business.TransactionBusinessImpl;
-import fr.jg.account.business.UserBusinessImpl;
-import fr.jg.account.ports.primary.AccountBusiness;
-import fr.jg.account.ports.primary.CategoryBusiness;
-import fr.jg.account.ports.primary.TransactionBusiness;
-import fr.jg.account.ports.primary.UserBusiness;
+import fr.jg.account.business.*;
+import fr.jg.account.ports.primary.*;
 import fr.jg.account.ports.secondary.AccountService;
 import fr.jg.account.ports.secondary.CategoryService;
 import fr.jg.account.ports.secondary.TransactionService;
@@ -54,5 +48,10 @@ public class Application {
     @Bean
     public UserBusiness userBusiness() {
         return new UserBusinessImpl(this.userService);
+    }
+
+    @Bean
+    public AmortizationBusiness amortizationBusiness() {
+        return new AmortizationBusinessImpl();
     }
 }
