@@ -9,8 +9,10 @@ import fr.jg.account.ports.secondary.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
+@EnableFeignClients(basePackages = {"fr.jg.account.services", "fr.jg"})
 @SpringBootApplication
 public class Application {
 
