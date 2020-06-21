@@ -1,35 +1,112 @@
-CREATE TABLE IF NOT EXISTS users (
-  id uuid NOT NULL,
-  name character varying NOT NULL,
-  CONSTRAINT pk_users PRIMARY KEY (id)
+CREATE TYPE operation_enum AS ENUM (
+	'BUYING',
+	'SALE',
+	'DIVIDEND',
+	'TAX');
+
+CREATE TABLE stocks (
+	code varchar NOT NULL,
+	"name" varchar NOT NULL,
+	CONSTRAINT stocks_pk PRIMARY KEY (code)
 );
 
-CREATE TABLE IF NOT EXISTS accounts (
-  id uuid NOT NULL,
-  name character varying  NOT NULL,
-  currency character varying NOT NULL,
-  user_id uuid,
-  yield_rate bigint NOT NULL DEFAULT 0,
-  CONSTRAINT pk_accounts PRIMARY KEY (id),
-  CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users (id)
+CREATE TABLE users (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	"name" varchar NOT NULL,
+	CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS categories (
-  id bigint,
-  name character varying NOT NULL,
-  parent_id bigint,
-  CONSTRAINT pk_categories PRIMARY KEY (id),
-  CONSTRAINT fk_parent FOREIGN KEY (parent_id) REFERENCES categories (id)
+CREATE TABLE categories (
+	id int8 NOT NULL,
+	"name" varchar NOT NULL,
+	parent_id int8 NULL,
+	CONSTRAINT categories_pk PRIMARY KEY (id),
+	CONSTRAINT categories_unique_name UNIQUE (name),
+	CONSTRAINT categories_parent_fk FOREIGN KEY (parent_id) REFERENCES categories(id)
 );
 
-CREATE TABLE IF NOT EXISTS transactions (
-  id uuid NOT NULL,
-  account_id uuid NOT NULL,
-  date date NOT NULL,
-  amount bigint NOT NULL,
-  comment character varying,
-  category_id bigint,
-  CONSTRAINT pktra PRIMARY KEY (id),
-  CONSTRAINT fk_accounts FOREIGN KEY (account_id) REFERENCES accounts (id),
-  CONSTRAINT fk_categories FOREIGN KEY (category_id) REFERENCES categories (id)
+CREATE TABLE estates (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	user_id uuid NOT NULL,
+	CONSTRAINT estates_pk PRIMARY KEY (id),
+	CONSTRAINT estates_user_fk FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE trading_accounts (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	estate_id uuid NOT NULL,
+	"name" varchar NOT NULL,
+	currency varchar NOT NULL,
+	CONSTRAINT trading_accounts_pk PRIMARY KEY (id),
+	CONSTRAINT trading_accounts_estate_fk FOREIGN KEY (estate_id) REFERENCES estates(id)
+);
+
+CREATE TABLE trading_transactions (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	"date" date NOT NULL,
+	trading_account_id uuid NOT NULL,
+	stock_id varchar NOT NULL,
+	unit_price int8 NOT NULL,
+	quantity int8 NOT NULL,
+	fees int8 NOT NULL DEFAULT 0,
+	operation operation_enum NOT NULL,
+	CONSTRAINT trading_transactions_pk PRIMARY KEY (id),
+	CONSTRAINT trading_transactions_account_fk FOREIGN KEY (trading_account_id) REFERENCES trading_accounts(id),
+	CONSTRAINT trading_transactions_stock_fk FOREIGN KEY (stock_id) REFERENCES stocks(code)
+);
+
+
+CREATE TABLE trading_wire_transactions (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	trading_account_id uuid NOT NULL,
+	amount int8 NOT NULL,
+	CONSTRAINT trading_wire_transactions_pk PRIMARY KEY (id),
+	CONSTRAINT trading_wire_transactions_account_fk FOREIGN KEY (trading_account_id) REFERENCES trading_accounts(id)
+);
+
+
+CREATE TABLE cash_accounts (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	estate_id uuid NOT NULL,
+	"name" varchar NOT NULL,
+	currency varchar NOT NULL,
+	yield_rate int8 NOT NULL DEFAULT 0,
+	CONSTRAINT cash_accounts_pk PRIMARY KEY (id),
+	CONSTRAINT cash_accounts_estate_fk FOREIGN KEY (estate_id) REFERENCES estates(id)
+);
+
+
+CREATE TABLE cash_transactions (
+	id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+	cash_account_id uuid NOT NULL,
+	"date" date NOT NULL,
+	amount int8 NOT NULL,
+	"comment" varchar NULL,
+	category_id int8 NULL,
+	CONSTRAINT cash_transactions_pk PRIMARY KEY (id),
+	CONSTRAINT cash_transactions_account_fk FOREIGN KEY (cash_account_id) REFERENCES cash_accounts(id),
+	CONSTRAINT cash_transactions_category_fk FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+INSERT INTO users(id, "name") VALUES('a28ab999-419c-4e17-8e27-15560ac03a6c', 'George');
+
+INSERT INTO estates (id, user_id) VALUES('f28ab999-419c-4e17-8e27-15560ac03a6c', 'a28ab999-419c-4e17-8e27-15560ac03a6c');
+
+INSERT INTO trading_accounts(id, "name", currency, estate_id) VALUES('e28ab999-419c-4e17-8e27-15560ac03a6c', 'Compte', 'EUR', 'f28ab999-419c-4e17-8e27-15560ac03a6c');
+
+INSERT INTO cash_accounts(id, "name", currency, yield_rate, estate_id) VALUES('828ab999-419c-4e17-8e27-15560ac03a6c', 'Compte', 'EUR', 2, 'f28ab999-419c-4e17-8e27-15560ac03a6c');
+

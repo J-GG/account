@@ -4,7 +4,8 @@ import fr.jg.account.configuration.Configuration;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class StockDto {
 
@@ -16,7 +17,12 @@ public class StockDto {
 
     private BigDecimal investedAmount;
 
-    private List<StockHistoryDto> history;
+    private SortedMap<LocalDate, BigDecimal> history;
+
+    public StockDto() {
+        this.investedAmount = BigDecimal.ZERO;
+        this.history = new TreeMap<>();
+    }
 
     public String getName() {
         return this.name;
@@ -54,33 +60,19 @@ public class StockDto {
         this.investedAmount = investedAmount;
     }
 
-    public List<StockHistoryDto> getHistory() {
+    public SortedMap<LocalDate, BigDecimal> getHistory() {
         return this.history;
     }
 
-    public void setHistory(final List<StockHistoryDto> history) {
+    public void setHistory(final SortedMap<LocalDate, BigDecimal> history) {
         this.history = history;
     }
 
-    public static class StockHistoryDto {
-        private LocalDate date;
+    public BigDecimal getCurrentPrice() {
+        return this.history.values().toArray(new BigDecimal[] {})[this.history.size() - 1];
+    }
 
-        private BigDecimal price;
-
-        public LocalDate getDate() {
-            return this.date;
-        }
-
-        public void setDate(final LocalDate date) {
-            this.date = date;
-        }
-
-        public BigDecimal getPrice() {
-            return this.price;
-        }
-
-        public void setPrice(final BigDecimal price) {
-            this.price = price;
-        }
+    public BigDecimal getCurrentValue() {
+        return getCurrentPrice().multiply(BigDecimal.valueOf(this.quantity));
     }
 }

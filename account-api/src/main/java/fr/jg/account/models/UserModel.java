@@ -1,47 +1,32 @@
 package fr.jg.account.models;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.List;
-import java.util.UUID;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserModel {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+public class UserModel extends BaseModel {
 
     private String name;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<AccountModel> accounts;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(final UUID id) {
-        this.id = id;
-    }
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private EstateModel estate;
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(final String name) {
         this.name = name;
     }
 
-    public List<AccountModel> getAccounts() {
-        return accounts;
+    public EstateModel getEstate() {
+        return this.estate;
     }
 
-    public void setAccounts(final List<AccountModel> accounts) {
-        this.accounts = accounts;
+    public void setEstate(final EstateModel estate) {
+        this.estate = estate;
     }
 }

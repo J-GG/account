@@ -35,7 +35,7 @@ public class AmortizationBusinessImpl implements AmortizationBusiness {
             payment.setNth(i);
             date = date.plusMonths(12 / amortization.getFrequency().getPaymentsPerYear());
             payment.setDate(date);
-            if (amortization.getType().equals(AmortizationTypeEnum.FIXED_PRINCIPAL)) {
+            if (AmortizationTypeEnum.FIXED_PRINCIPAL.equals(amortization.getType())) {
                 payment.setInterest(balance.multiply(periodicRate));
                 payment.setPrincipal(fixedPrincipal);
                 payment.setAmount(payment.getPrincipal().add(payment.getInterest()));

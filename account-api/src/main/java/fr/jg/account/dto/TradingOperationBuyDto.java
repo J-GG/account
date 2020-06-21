@@ -12,13 +12,11 @@ public class TradingOperationBuyDto extends TradingOperationDto {
 
     private BigDecimal fees;
 
-    private String comment;
-
     public String getCode() {
-        return code;
+        return this.code;
     }
 
-    public void setCode(String code) {
+    public void setCode(final String code) {
         this.code = code;
     }
 
@@ -45,13 +43,4 @@ public class TradingOperationBuyDto extends TradingOperationDto {
     public void setFees(final BigDecimal fees) {
         this.fees = fees;
     }
-
-    public String getComment() {
-        return this.comment;
-    }
-
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
 }

@@ -2,25 +2,26 @@ package fr.jg.account;
 
 import fr.jg.account.business.*;
 import fr.jg.account.ports.primary.*;
-import fr.jg.account.ports.secondary.AccountService;
-import fr.jg.account.ports.secondary.CategoryService;
-import fr.jg.account.ports.secondary.TransactionService;
-import fr.jg.account.ports.secondary.UserService;
+import fr.jg.account.ports.secondary.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableFeignClients(basePackages = {"fr.jg.account.services", "fr.jg"})
+@EnableScheduling
+@EnableFeignClients
 @SpringBootApplication
 public class Application {
 
     @Autowired
-    private AccountService accountService;
+    private CashAccountService cashAccountService;
 
     @Autowired
-    private TransactionService transactionService;
+    private CashTransactionService cashTransactionService;
 
     @Autowired
     private CategoryService categoryService;
@@ -28,18 +29,32 @@ public class Application {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private EstateService estateService;
+
+    @Autowired
+    private TradingAccountService tradingAccountService;
+
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
-    public AccountBusiness accountBusiness() {
-        return new AccountBusinessImpl(this.accountService);
+    public CashAccountBusiness cashAccountBusiness() {
+        return new CashAccountBusinessImpl(this.cashAccountService, cashTransactionBusiness());
     }
 
     @Bean
-    public TransactionBusiness transactionBusiness() {
-        return new TransactionBusinessImpl(this.transactionService);
+    public TradingAccountBusiness tradingAccountBusiness() {
+        return new TradingAccountBusinessImpl(this.tradingAccountService);
+    }
+
+    @Bean
+    public CashTransactionBusiness cashTransactionBusiness() {
+        return new CashTransactionBusinessImpl(this.cashTransactionService);
     }
 
     @Bean
@@ -49,11 +64,33 @@ public class Application {
 
     @Bean
     public UserBusiness userBusiness() {
-        return new UserBusinessImpl(this.userService);
+        return new UserBusinessImpl(this.userService, estateBusiness());
     }
 
     @Bean
     public AmortizationBusiness amortizationBusiness() {
         return new AmortizationBusinessImpl();
+    }
+
+    @Bean
+    public CompanyBusiness companyBusiness() {
+        return new CompanyBusinessImpl(this.companyService);
+    }
+
+    @Bean
+    public EstateBusiness estateBusiness() {
+        return new EstateBusinessImpl(this.estateService, cashAccountBusiness(), tradingAccountBusiness());
+    }
+
+    @Bean
+    JedisConnectionFactory jedisConnectionFactory() {
+        return new JedisConnectionFactory();
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        final RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(jedisConnectionFactory());
+        return template;
     }
 }

@@ -11,7 +11,7 @@ public class LinkedResourceArray extends RepresentationModel<LinkedResourceArray
     }
 
     public int getCount() {
-        return count;
+        return this.count;
     }
 
     public void setCount(final int count) {

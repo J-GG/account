@@ -11,10 +11,10 @@ public class UserDto extends RepresentationModel<UserDto> {
 
     private String name;
 
-    private LinkedResourceArray accounts;
+    private LinkedResource<UUID> estate;
 
     public UUID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(final UUID id) {
@@ -22,18 +22,18 @@ public class UserDto extends RepresentationModel<UserDto> {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(final String name) {
         this.name = name;
     }
 
-    public LinkedResourceArray getAccounts() {
-        return accounts;
+    public LinkedResource<UUID> getEstate() {
+        return this.estate;
     }
 
-    public void setAccounts(final LinkedResourceArray accounts) {
-        this.accounts = accounts;
+    public void setEstate(final LinkedResource<UUID> estate) {
+        this.estate = estate;
     }
 }

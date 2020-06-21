@@ -1,8 +1,8 @@
 package fr.jg.account.controllers;
 
-import fr.jg.account.dto.TransactionDto;
-import fr.jg.account.mappers.TransactionMapper;
-import fr.jg.account.ports.primary.TransactionBusiness;
+import fr.jg.account.dto.CashTransactionDto;
+import fr.jg.account.mappers.CashTransactionMapper;
+import fr.jg.account.ports.primary.CashTransactionBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
@@ -17,27 +17,27 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class TransactionController {
 
     @Autowired
-    private TransactionBusiness transactionBusiness;
+    private CashTransactionBusiness cashTransactionBusiness;
 
     @Autowired
-    private TransactionMapper transactionMapper;
+    private CashTransactionMapper cashTransactionMapper;
 
     @GetMapping
-    public CollectionModel<TransactionDto> getTransactions() {
-        final CollectionModel<TransactionDto> transactionDtos = CollectionModel.of(this.transactionMapper.domainToDto(this.transactionBusiness.getAll()));
+    public CollectionModel<CashTransactionDto> getTransactions() {
+        final CollectionModel<CashTransactionDto> transactionDtos = CollectionModel.of(this.cashTransactionMapper.domainToDto(this.cashTransactionBusiness.getAll()));
         transactionDtos.add(linkTo(TransactionController.class).withSelfRel());
 
         return transactionDtos;
     }
 
     @GetMapping("/{id}")
-    public TransactionDto getTransaction(@PathVariable("id") final UUID transactionId) {
-        return transactionMapper.domainToDto(this.transactionBusiness.get(transactionId));
+    public CashTransactionDto getTransaction(@PathVariable("id") final UUID transactionId) {
+        return this.cashTransactionMapper.domainToDto(this.cashTransactionBusiness.get(transactionId));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTransaction(@PathVariable("id") final UUID transactionId) {
-        this.transactionBusiness.delete(transactionId);
+        this.cashTransactionBusiness.delete(transactionId);
     }
 }

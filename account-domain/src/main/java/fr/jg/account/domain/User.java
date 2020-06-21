@@ -1,7 +1,5 @@
 package fr.jg.account.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -10,14 +8,10 @@ public class User {
 
     private String name;
 
-    private List<Account> accounts;
-
-    public User() {
-        this.accounts = new ArrayList<>();
-    }
+    private Estate estate;
 
     public UUID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(final UUID id) {
@@ -25,24 +19,19 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(final String name) {
         this.name = name;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public Estate getEstate() {
+        return this.estate;
     }
 
-    public void setAccounts(final List<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    public void addAccount(final Account account) {
-        accounts.add(account);
-        account.setUser(this);
+    public void setEstate(final Estate estate) {
+        this.estate = estate;
     }
 }
 

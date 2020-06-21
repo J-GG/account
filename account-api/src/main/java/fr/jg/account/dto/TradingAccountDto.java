@@ -1,12 +1,15 @@
 package fr.jg.account.dto;
 
+import org.springframework.hateoas.server.core.Relation;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class TradingAccountDto {
+@Relation(collectionRelation = "tradingAccounts")
+public class TradingAccountDto extends BaseEstateDto<CashAccountDto> {
 
     private List<TransactionDto> transactions;
 
@@ -16,15 +19,10 @@ public class TradingAccountDto {
 
     private BigDecimal cashValue;
 
-    private BigDecimal stockValue;
-
-    private BigDecimal currentValue;
 
     public TradingAccountDto() {
         this.investedAmount = BigDecimal.ZERO;
         this.cashValue = BigDecimal.ZERO;
-        this.stockValue = BigDecimal.ZERO;
-        this.currentValue = BigDecimal.ZERO;
     }
 
     public List<TransactionDto> getTransactions() {
@@ -60,19 +58,11 @@ public class TradingAccountDto {
     }
 
     public BigDecimal getStockValue() {
-        return this.stockValue;
-    }
-
-    public void setStockValue(final BigDecimal stockValue) {
-        this.stockValue = stockValue;
+        return this.stocks.values().stream().map(StockDto::getCurrentValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getCurrentValue() {
-        return this.currentValue;
-    }
-
-    public void setCurrentValue(final BigDecimal currentValue) {
-        this.currentValue = currentValue;
+        return this.cashValue.add(this.getStockValue());
     }
 
     public static class TransactionDto {
