@@ -137,7 +137,7 @@
                 <version>6.4.4</version>
                 <configuration>
                     <url>${spring.datasource.url}</url>
-                    <estate>${spring.datasource.username}</estate>
+                    <user>${spring.datasource.username}</user>
                     <password>${spring.datasource.password}</password>
                     <schemas>
                         <schema>public</schema>

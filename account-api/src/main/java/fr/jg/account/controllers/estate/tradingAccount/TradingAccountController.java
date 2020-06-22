@@ -1,0 +1,70 @@
+package fr.jg.account.controllers.estate.tradingAccount;
+
+import fr.jg.account.dto.estate.tradingAccount.TradingAccountDto;
+import fr.jg.account.dto.estate.tradingAccount.TradingTransactionDto;
+import fr.jg.account.mappers.estate.tradingAccount.TradingAccountMapper;
+import fr.jg.account.mappers.estate.tradingAccount.TradingTransactionMapper;
+import fr.jg.account.ports.primary.estate.tradingAccount.TradingAccountBusiness;
+import fr.jg.account.ports.primary.estate.tradingAccount.TradingTransactionBusiness;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
+
+@RestController
+@RequestMapping("/tradingAccounts")
+public class TradingAccountController {
+
+    @Autowired
+    TradingAccountBusiness tradingAccountBusiness;
+
+    @Autowired
+    TradingAccountMapper tradingAccountMapper;
+
+    @Autowired
+    TradingTransactionBusiness tradingTransactionBusiness;
+
+    @Autowired
+    TradingTransactionMapper tradingTransactionMapper;
+
+
+    @GetMapping
+    public CollectionModel<TradingAccountDto> getTradingAccounts() {
+        final CollectionModel<TradingAccountDto> tradingAccountDtos = CollectionModel.of(this.tradingAccountMapper.domainToDto(this.tradingAccountBusiness.getAll()));
+        tradingAccountDtos.add(linkTo(TradingAccountController.class).withSelfRel());
+
+        return tradingAccountDtos;
+    }
+
+    @GetMapping("/{id}")
+    public TradingAccountDto getTradingAccount(@PathVariable("id") final UUID tradingAccountId) {
+        return this.tradingAccountMapper.domainToDto(this.tradingAccountBusiness.get(tradingAccountId));
+    }
+
+    @GetMapping("/{id}/transactions")
+    public CollectionModel<TradingTransactionDto> getTransactions(@PathVariable("id") final UUID tradingAccountId) throws NoSuchMethodException {
+        return this.tradingTransactionMapper.domainToCollectionModel(this.tradingTransactionBusiness.getByTradingAccountId(tradingAccountId),
+                linkTo(TradingAccountController.class.getMethod("getTradingAccount", UUID.class), tradingAccountId).withRel("account"),
+                linkTo(TradingAccountController.class.getMethod("getTransactions", UUID.class), tradingAccountId).withSelfRel()
+        );
+    }
+
+//    @PostMapping("/{id}/transactions")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public CollectionModel<CashTransactionDto> postTransactionToAccount(@PathVariable("id") final UUID tradingAccountId, @RequestBody final CashTransactionDto cashTransactionDto) throws NoSuchMethodException {
+//        final CashAccount cashAccount = this.tradingAccountBusiness.addTransactionToAccount(cashAccountId, this.cashTransactionMapper.dtoToDomain(cashTransactionDto));
+//
+//        return this.getTransactions(cashAccount.getId());
+//    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAccount(@PathVariable("id") final UUID accountId) {
+        this.tradingAccountBusiness.delete(accountId);
+    }
+}

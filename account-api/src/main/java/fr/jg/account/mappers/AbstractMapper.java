@@ -35,11 +35,11 @@ public abstract class AbstractMapper<T, D, M> {
 
     public abstract List<M> domainToModel(List<D> domains, @Context CycleAvoidingMappingContext context);
 
-    LinkedResourceArray domainToLinkedResourceArray(final List<D> domains) {
+    public LinkedResourceArray domainToLinkedResourceArray(final List<D> domains) {
         return domains != null ? new LinkedResourceArray(domains.size()) : null;
     }
 
-    List<D> linkedResourceArrayToDomain(final LinkedResourceArray linkedResourceArray) {
+    public List<D> linkedResourceArrayToDomain(final LinkedResourceArray linkedResourceArray) {
         return new ArrayList<>();
     }
 }
