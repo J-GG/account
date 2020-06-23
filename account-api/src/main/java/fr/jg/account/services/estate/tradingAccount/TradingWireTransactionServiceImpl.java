@@ -45,6 +45,11 @@ public class TradingWireTransactionServiceImpl implements TradingWireTransaction
     }
 
     @Override
+    public List<TradingWireTransaction> getByTradingAccountId(final UUID tradingAccountId) {
+        return this.tradingWireTransactionMapper.modelToDomain(this.tradingWireTransactionRepository.findByTradingAccountId(tradingAccountId), this.mappingContext);
+    }
+
+    @Override
     public void delete(final UUID tradingWireTransactionId) {
         this.tradingWireTransactionRepository.deleteById(tradingWireTransactionId);
     }

@@ -46,7 +46,7 @@ public class TradingTransactionServiceImpl implements TradingTransactionService 
 
     @Override
     public List<TradingTransaction> getByTradingAccountId(final UUID tradingAccountId) {
-        return this.tradingTransactionMapper.modelToDomain(this.tradingTransactionRepository.findBytradingAccountId(tradingAccountId), this.mappingContext);
+        return this.tradingTransactionMapper.modelToDomain(this.tradingTransactionRepository.findByTradingAccountId(tradingAccountId), this.mappingContext);
     }
 
     @Override

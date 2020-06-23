@@ -4,6 +4,7 @@ import fr.jg.account.controllers.estate.EstateController;
 import fr.jg.account.controllers.estate.tradingAccount.TradingAccountController;
 import fr.jg.account.domain.estate.tradingAccount.TradingAccount;
 import fr.jg.account.dto.LinkedResource;
+import fr.jg.account.dto.LinkedResourceArray;
 import fr.jg.account.dto.estate.tradingAccount.TradingAccountDto;
 import fr.jg.account.mappers.AbstractMapper;
 import fr.jg.account.mappers.estate.EstateMapper;
@@ -22,6 +23,14 @@ public abstract class TradingAccountMapper extends AbstractMapper<TradingAccount
     @AfterMapping
     void afterMappingDomainToDto(final TradingAccount tradingAccount, @MappingTarget final TradingAccountDto tradingAccountDto) {
         try {
+            final LinkedResourceArray linkedWireTransactions = new LinkedResourceArray(tradingAccount.getWireTransactions().size());
+            linkedWireTransactions.add(linkTo(TradingAccountController.class.getMethod("getWireTransactions", UUID.class), tradingAccount.getId()).withSelfRel());
+            tradingAccountDto.setWireTransactions(linkedWireTransactions);
+
+            final LinkedResourceArray linkedTransactions = new LinkedResourceArray(tradingAccount.getTransactions().size());
+            linkedTransactions.add(linkTo(TradingAccountController.class.getMethod("getTransactions", UUID.class), tradingAccount.getId()).withSelfRel());
+            tradingAccountDto.setTransactions(linkedTransactions);
+
             final LinkedResource<UUID> linkedEstate = new LinkedResource<>(tradingAccount.getEstate().getId());
             linkedEstate.add(linkTo(EstateController.class.getMethod("getEstate", UUID.class), tradingAccount.getEstate().getId()).withSelfRel());
             tradingAccountDto.setEstate(linkedEstate);

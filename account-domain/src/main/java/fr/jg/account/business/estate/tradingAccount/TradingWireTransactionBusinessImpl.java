@@ -31,6 +31,11 @@ public class TradingWireTransactionBusinessImpl implements TradingWireTransactio
     }
 
     @Override
+    public List<TradingWireTransaction> getByTradingAccountId(final UUID id) {
+        return this.tradingWireTransactionService.getByTradingAccountId(id);
+    }
+
+    @Override
     public void delete(final UUID tradingWireTransactionId) {
         this.tradingWireTransactionService.delete(tradingWireTransactionId);
     }

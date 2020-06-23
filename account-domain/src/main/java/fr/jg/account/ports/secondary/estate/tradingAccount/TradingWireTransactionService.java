@@ -14,5 +14,7 @@ public interface TradingWireTransactionService {
 
     TradingWireTransaction get(UUID tradingWireTransactionId);
 
+    List<TradingWireTransaction> getByTradingAccountId(final UUID tradingAccountId);
+
     void delete(UUID tradingWireTransactionId);
 }

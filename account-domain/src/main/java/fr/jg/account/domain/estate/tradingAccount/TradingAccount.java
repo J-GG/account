@@ -6,9 +6,19 @@ import java.util.List;
 
 public class TradingAccount extends BaseEstate {
 
+    private List<? extends Transaction> transactionsB;
+
     private List<TradingTransaction> transactions;
 
     private List<TradingWireTransaction> wireTransactions;
+
+    public List<? extends Transaction> getTransactionsB() {
+        return this.transactionsB;
+    }
+
+    public void setTransactionsB(final List<? extends Transaction> transactionsB) {
+        this.transactionsB = transactionsB;
+    }
 
     public List<TradingTransaction> getTransactions() {
         return this.transactions;

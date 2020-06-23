@@ -81,7 +81,7 @@ public class Application {
 
     @Bean
     public TradingAccountBusiness tradingAccountBusiness() {
-        return new TradingAccountBusinessImpl(this.tradingAccountService);
+        return new TradingAccountBusinessImpl(this.tradingAccountService, tradingTransactionBusiness(), tradingWireTransactionBusiness());
     }
 
     @Bean

@@ -12,5 +12,7 @@ public interface TradingWireTransactionBusiness {
 
     TradingWireTransaction get(UUID tradingWireTransactionId);
 
+    List<TradingWireTransaction> getByTradingAccountId(UUID id);
+
     void delete(UUID tradingWireTransactionId);
 }

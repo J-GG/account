@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping("/transactions")
+@RequestMapping("/cashTransactions")
 public class CashTransactionController {
 
     @Autowired
@@ -24,10 +24,7 @@ public class CashTransactionController {
 
     @GetMapping
     public CollectionModel<CashTransactionDto> getTransactions() {
-        final CollectionModel<CashTransactionDto> transactionDtos = CollectionModel.of(this.cashTransactionMapper.domainToDto(this.cashTransactionBusiness.getAll()));
-        transactionDtos.add(linkTo(CashTransactionController.class).withSelfRel());
-
-        return transactionDtos;
+        return this.cashTransactionMapper.domainToCollectionModel(this.cashTransactionBusiness.getAll(), linkTo(CashTransactionController.class).withSelfRel());
     }
 
     @GetMapping("/{id}")
