@@ -9,15 +9,15 @@ import java.math.BigDecimal;
 @Relation(collectionRelation = "cashAccounts")
 public class CashAccountDto extends BaseEstateDto<CashAccountDto> {
 
+    private LinkedResourceArray transactions;
+
+    private BigDecimal yieldRate;
+
     private BigDecimal balance;
 
     private BigDecimal futureBalance;
 
-    private BigDecimal yieldRate;
-
     private BigDecimal estimatedAnnualYield;
-
-    private LinkedResourceArray transactions;
 
     public BigDecimal getBalance() {
         return this.balance;

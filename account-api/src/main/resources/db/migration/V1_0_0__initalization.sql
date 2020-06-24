@@ -1,12 +1,15 @@
 create type trading_operation_enum as ENUM (
+	'WIRE_TRANSFER',
 	'BUYING',
 	'SALE',
 	'DIVIDEND',
 	'TAX');
 
-CREATE TABLE portfolio (
+CREATE TABLE stocks (
 	id varchar NOT NULL,
 	"name" varchar NOT NULL,
+	currency varchar NOT NULL,
+	dividend int8 NOT NULL DEFAULT 0,
 	CONSTRAINT stocks_pk PRIMARY KEY (id)
 );
 
@@ -52,7 +55,7 @@ CREATE TABLE trading_transactions (
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
 	trading_account_id uuid NOT NULL,
-	stock_id varchar NOT NULL,
+	stock_id varchar NULL,
 	"date" date NOT NULL,
 	unit_price int8 NOT NULL,
 	quantity int8 NOT NULL,
@@ -61,22 +64,8 @@ CREATE TABLE trading_transactions (
 	"comment" varchar NULL,
 	CONSTRAINT trading_transactions_pk PRIMARY KEY (id),
 	CONSTRAINT trading_transactions_account_fk FOREIGN KEY (trading_account_id) REFERENCES trading_accounts(id),
-	CONSTRAINT trading_transactions_stock_fk FOREIGN KEY (stock_code) REFERENCES portfolio(id)
+	CONSTRAINT trading_transactions_stock_fk FOREIGN KEY (stock_id) REFERENCES stocks(id)
 );
-
-
-CREATE TABLE trading_wire_transactions (
-	id uuid NOT NULL,
-	created_at timestamptz NOT NULL DEFAULT now(),
-	updated_at timestamptz NOT NULL DEFAULT now(),
-	trading_account_id uuid NOT NULL,
-	"date" date NOT NULL,
-	amount int8 NOT NULL,
-	"comment" varchar NULL,
-	CONSTRAINT trading_wire_transactions_pk PRIMARY KEY (id),
-	CONSTRAINT trading_wire_transactions_account_fk FOREIGN KEY (trading_account_id) REFERENCES trading_accounts(id)
-);
-
 
 CREATE TABLE cash_accounts (
 	id uuid NOT NULL,

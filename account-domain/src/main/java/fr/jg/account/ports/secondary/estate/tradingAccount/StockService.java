@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface StockService {
 
+    Stock create(Stock stock);
+
     Stock get(String companyCode);
 
     List<Stock> getAll();

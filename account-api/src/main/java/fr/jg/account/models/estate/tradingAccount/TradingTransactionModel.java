@@ -1,15 +1,20 @@
 package fr.jg.account.models.estate.tradingAccount;
 
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import fr.jg.account.domain.estate.tradingAccount.TradingOperationEnum;
 import fr.jg.account.models.BaseModel;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "trading_transactions")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 public class TradingTransactionModel extends BaseModel {
 
     @ManyToOne
@@ -26,6 +31,8 @@ public class TradingTransactionModel extends BaseModel {
 
     private Long fees;
 
+    @Enumerated(EnumType.STRING)
+    @Type(type = "pgsql_enum")
     private TradingOperationEnum operation;
 
     private String comment;

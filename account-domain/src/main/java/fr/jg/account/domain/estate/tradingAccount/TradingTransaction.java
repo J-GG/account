@@ -1,8 +1,18 @@
 package fr.jg.account.domain.estate.tradingAccount;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.UUID;
 
-public class TradingTransaction extends Transaction {
+public class TradingTransaction {
+
+    private UUID id;
+
+    private TradingAccount tradingAccount;
+
+    private LocalDate date;
+
+    private String comment;
 
     private Stock stock;
 
@@ -12,7 +22,39 @@ public class TradingTransaction extends Transaction {
 
     private BigDecimal fees;
 
-    private TradingOperationEnum tradingOperationEnum;
+    private TradingOperationEnum operation;
+
+    public UUID getId() {
+        return this.id;
+    }
+
+    public void setId(final UUID id) {
+        this.id = id;
+    }
+
+    public TradingAccount getTradingAccount() {
+        return this.tradingAccount;
+    }
+
+    public void setTradingAccount(final TradingAccount tradingAccount) {
+        this.tradingAccount = tradingAccount;
+    }
+
+    public LocalDate getDate() {
+        return this.date;
+    }
+
+    public void setDate(final LocalDate date) {
+        this.date = date;
+    }
+
+    public String getComment() {
+        return this.comment;
+    }
+
+    public void setComment(final String comment) {
+        this.comment = comment;
+    }
 
     public Stock getStock() {
         return this.stock;
@@ -46,11 +88,11 @@ public class TradingTransaction extends Transaction {
         this.fees = fees;
     }
 
-    public TradingOperationEnum getTradingOperationEnum() {
-        return this.tradingOperationEnum;
+    public TradingOperationEnum getOperation() {
+        return this.operation;
     }
 
-    public void setTradingOperationEnum(final TradingOperationEnum tradingOperationEnum) {
-        this.tradingOperationEnum = tradingOperationEnum;
+    public void setOperation(final TradingOperationEnum operation) {
+        this.operation = operation;
     }
 }

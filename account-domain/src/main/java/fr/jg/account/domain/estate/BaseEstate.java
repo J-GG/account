@@ -1,17 +1,18 @@
 package fr.jg.account.domain.estate;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.UUID;
 
-public class BaseEstate {
+public abstract class BaseEstate {
 
-    private UUID id;
+    protected UUID id;
 
-    private Estate estate;
+    protected Estate estate;
 
-    private String name;
+    protected String name;
 
-    private Currency currency;
+    protected Currency currency;
 
     public UUID getId() {
         return this.id;
@@ -44,4 +45,6 @@ public class BaseEstate {
     public void setCurrency(final Currency currency) {
         this.currency = currency;
     }
+
+    public abstract BigDecimal getTotalValue();
 }

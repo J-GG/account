@@ -2,10 +2,8 @@ package fr.jg.account.business.estate.tradingAccount;
 
 import fr.jg.account.domain.estate.tradingAccount.TradingAccount;
 import fr.jg.account.domain.estate.tradingAccount.TradingTransaction;
-import fr.jg.account.domain.estate.tradingAccount.TradingWireTransaction;
 import fr.jg.account.ports.primary.estate.tradingAccount.TradingAccountBusiness;
 import fr.jg.account.ports.primary.estate.tradingAccount.TradingTransactionBusiness;
-import fr.jg.account.ports.primary.estate.tradingAccount.TradingWireTransactionBusiness;
 import fr.jg.account.ports.secondary.estate.tradingAccount.TradingAccountService;
 
 import java.util.List;
@@ -17,12 +15,9 @@ public class TradingAccountBusinessImpl implements TradingAccountBusiness {
 
     private final TradingTransactionBusiness tradingTransactionBusiness;
 
-    private final TradingWireTransactionBusiness tradingWireTransactionBusiness;
-
-    public TradingAccountBusinessImpl(final TradingAccountService tradingAccountService, final TradingTransactionBusiness tradingTransactionBusiness, final TradingWireTransactionBusiness tradingWireTransactionBusiness) {
+    public TradingAccountBusinessImpl(final TradingAccountService tradingAccountService, final TradingTransactionBusiness tradingTransactionBusiness) {
         this.tradingAccountService = tradingAccountService;
         this.tradingTransactionBusiness = tradingTransactionBusiness;
-        this.tradingWireTransactionBusiness = tradingWireTransactionBusiness;
     }
 
     @Override
@@ -36,14 +31,6 @@ public class TradingAccountBusinessImpl implements TradingAccountBusiness {
         tradingTransaction.setTradingAccount(tradingAccount);
 
         return this.tradingTransactionBusiness.create(tradingTransaction);
-    }
-
-    @Override
-    public TradingWireTransaction addWireTransactionToAccount(final UUID tradingAccountId, final TradingWireTransaction tradingWireTransaction) {
-        final TradingAccount tradingAccount = this.tradingAccountService.get(tradingAccountId);
-        tradingWireTransaction.setTradingAccount(tradingAccount);
-
-        return this.tradingWireTransactionBusiness.create(tradingWireTransaction);
     }
 
     @Override

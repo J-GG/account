@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Relation(collectionRelation = "wireTransactions")
+@Relation(collectionRelation = "transactions")
 public class TradingTransactionDto extends RepresentationModel<TradingTransactionDto> {
 
     private UUID id;
@@ -26,7 +26,7 @@ public class TradingTransactionDto extends RepresentationModel<TradingTransactio
 
     private BigDecimal fees;
 
-    private TradingOperationEnum tradingOperationEnum;
+    private TradingOperationEnum operation;
 
     private String comment;
 
@@ -86,12 +86,12 @@ public class TradingTransactionDto extends RepresentationModel<TradingTransactio
         this.fees = fees;
     }
 
-    public TradingOperationEnum getTradingOperationEnum() {
-        return this.tradingOperationEnum;
+    public TradingOperationEnum getOperation() {
+        return this.operation;
     }
 
-    public void setTradingOperationEnum(final TradingOperationEnum tradingOperationEnum) {
-        this.tradingOperationEnum = tradingOperationEnum;
+    public void setOperation(final TradingOperationEnum operation) {
+        this.operation = operation;
     }
 
     public String getComment() {

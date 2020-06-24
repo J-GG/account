@@ -25,6 +25,11 @@ public class StockServiceImpl implements StockService {
     private CycleAvoidingMappingContext mappingContext;
 
     @Override
+    public Stock create(final Stock stock) {
+        return this.stockMapper.modelToDomain(this.stockRepository.save(this.stockMapper.domainToModel(stock, this.mappingContext)), this.mappingContext);
+    }
+
+    @Override
     public Stock get(final String companyCode) {
         return this.stockRepository.findById(companyCode).map(stock -> this.stockMapper.modelToDomain(stock, this.mappingContext)).orElseThrow();
     }

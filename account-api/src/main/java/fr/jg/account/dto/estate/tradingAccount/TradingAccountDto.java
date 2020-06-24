@@ -7,14 +7,11 @@ import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Relation(collectionRelation = "tradingAccounts")
 public class TradingAccountDto extends BaseEstateDto<CashAccountDto> {
-
-    private LinkedResourceArray wireTransactions;
 
     private LinkedResourceArray transactions;
 
@@ -24,19 +21,9 @@ public class TradingAccountDto extends BaseEstateDto<CashAccountDto> {
 
     private BigDecimal cashValue;
 
-    public TradingAccountDto() {
-        this.investedAmount = BigDecimal.ZERO;
-        this.cashValue = BigDecimal.ZERO;
-        this.portfolio = new HashMap<>();
-    }
+    private BigDecimal stockValue;
 
-    public LinkedResourceArray getWireTransactions() {
-        return wireTransactions;
-    }
-
-    public void setWireTransactions(LinkedResourceArray wireTransactions) {
-        this.wireTransactions = wireTransactions;
-    }
+    private BigDecimal totalValue;
 
     public LinkedResourceArray getTransactions() {
         return this.transactions;
@@ -71,11 +58,19 @@ public class TradingAccountDto extends BaseEstateDto<CashAccountDto> {
     }
 
     public BigDecimal getStockValue() {
-        return this.portfolio.values().stream().map(PortfolioStockDto::getCurrentValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return this.stockValue;
+    }
+
+    public void setStockValue(final BigDecimal stockValue) {
+        this.stockValue = stockValue;
     }
 
     public BigDecimal getTotalValue() {
-        return this.cashValue.add(this.getStockValue());
+        return this.totalValue;
+    }
+
+    public void setTotalValue(final BigDecimal totalValue) {
+        this.totalValue = totalValue;
     }
 
     public static class TransactionDto {

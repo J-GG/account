@@ -15,6 +15,11 @@ public class StockBusinessImpl implements StockBusiness {
     }
 
     @Override
+    public Stock create(final Stock stock) {
+        return this.stockService.create(stock);
+    }
+
+    @Override
     public Stock get(final String companyCode) {
         return this.stockService.get(companyCode);
     }

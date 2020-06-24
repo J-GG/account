@@ -9,10 +9,22 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
+import java.math.BigDecimal;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Mapper(componentModel = "spring")
 public abstract class StockMapper extends AbstractMapper<StockDto, Stock, StockModel> {
+
+    @AfterMapping
+    void afterMappingDomainToModel(final Stock stock, @MappingTarget final StockModel stockModel) {
+        stockModel.setDividend(stock.getDividend().multiply(BigDecimal.valueOf(Math.pow(10, stock.getCurrency().getDefaultFractionDigits()))).longValue());
+    }
+
+    @AfterMapping
+    void afterMappingModelToDomain(final StockModel stockModel, @MappingTarget final Stock stock) {
+        stock.setDividend(BigDecimal.valueOf(stockModel.getDividend()).divide(BigDecimal.valueOf(Math.pow(10, stockModel.getCurrency().getDefaultFractionDigits()))));
+    }
 
     @AfterMapping
     void afterMappingDomainToDto(final Stock stock, @MappingTarget final StockDto stockDto) {

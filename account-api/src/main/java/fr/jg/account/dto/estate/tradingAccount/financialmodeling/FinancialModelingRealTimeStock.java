@@ -1,4 +1,4 @@
-package fr.jg.account.dto.estate.tradingAccount;
+package fr.jg.account.dto.estate.tradingAccount.financialmodeling;
 
 import java.math.BigDecimal;
 

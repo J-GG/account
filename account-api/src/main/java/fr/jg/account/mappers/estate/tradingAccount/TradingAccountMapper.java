@@ -17,16 +17,12 @@ import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-@Mapper(componentModel = "spring", uses = {EstateMapper.class, TradingTransactionMapper.class, TradingWireTransactionMapper.class})
+@Mapper(componentModel = "spring", uses = {EstateMapper.class, TradingTransactionMapper.class})
 public abstract class TradingAccountMapper extends AbstractMapper<TradingAccountDto, TradingAccount, TradingAccountModel> {
 
     @AfterMapping
     void afterMappingDomainToDto(final TradingAccount tradingAccount, @MappingTarget final TradingAccountDto tradingAccountDto) {
         try {
-            final LinkedResourceArray linkedWireTransactions = new LinkedResourceArray(tradingAccount.getWireTransactions().size());
-            linkedWireTransactions.add(linkTo(TradingAccountController.class.getMethod("getWireTransactions", UUID.class), tradingAccount.getId()).withSelfRel());
-            tradingAccountDto.setWireTransactions(linkedWireTransactions);
-
             final LinkedResourceArray linkedTransactions = new LinkedResourceArray(tradingAccount.getTransactions().size());
             linkedTransactions.add(linkTo(TradingAccountController.class.getMethod("getTransactions", UUID.class), tradingAccount.getId()).withSelfRel());
             tradingAccountDto.setTransactions(linkedTransactions);

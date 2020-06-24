@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Currency;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,11 @@ public class StockModel {
 
     private String name;
 
-    @OneToMany
+    private Currency currency;
+
+    private Long dividend;
+
+    @OneToMany(mappedBy = "stock")
     private List<TradingTransactionModel> tradingTransactions;
 
     public String getId() {
@@ -41,5 +46,21 @@ public class StockModel {
 
     public void setTradingTransactions(final List<TradingTransactionModel> tradingTransactions) {
         this.tradingTransactions = tradingTransactions;
+    }
+
+    public Currency getCurrency() {
+        return this.currency;
+    }
+
+    public void setCurrency(final Currency currency) {
+        this.currency = currency;
+    }
+
+    public Long getDividend() {
+        return this.dividend;
+    }
+
+    public void setDividend(final Long dividend) {
+        this.dividend = dividend;
     }
 }

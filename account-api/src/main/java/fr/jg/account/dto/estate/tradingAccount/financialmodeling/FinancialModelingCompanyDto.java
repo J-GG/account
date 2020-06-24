@@ -1,10 +1,6 @@
-package fr.jg.account.dto.estate.tradingAccount;
+package fr.jg.account.dto.estate.tradingAccount.financialmodeling;
 
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.Relation;
-
-@Relation(collectionRelation = "companies")
-public class FinancialModelingCompanyDto extends RepresentationModel<FinancialModelingCompanyDto> {
+public class FinancialModelingCompanyDto {
 
     private String symbol;
 
