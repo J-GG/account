@@ -11,10 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "trading_transactions")
-@TypeDef(
-        name = "pgsql_enum",
-        typeClass = PostgreSQLEnumType.class
-)
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class TradingTransactionModel extends BaseModel {
 
     @ManyToOne

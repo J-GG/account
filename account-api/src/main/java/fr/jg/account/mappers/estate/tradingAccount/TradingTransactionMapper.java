@@ -1,5 +1,6 @@
 package fr.jg.account.mappers.estate.tradingAccount;
 
+import fr.jg.account.controllers.estate.tradingAccount.StockController;
 import fr.jg.account.controllers.estate.tradingAccount.TradingAccountController;
 import fr.jg.account.controllers.estate.tradingAccount.TradingTransactionController;
 import fr.jg.account.domain.estate.tradingAccount.TradingTransaction;
@@ -34,6 +35,10 @@ public abstract class TradingTransactionMapper extends AbstractMapper<TradingTra
     void afterMappingDomainToDto(final TradingTransaction tradingTransaction, @MappingTarget final TradingTransactionDto tradingTransactionDto) {
         try {
             tradingTransactionDto.getTradingAccount().add(linkTo(TradingAccountController.class.getMethod("getTradingAccount", UUID.class), tradingTransaction.getTradingAccount().getId()).withSelfRel());
+
+            if (tradingTransaction.getStock() != null) {
+                tradingTransactionDto.getStock().add(linkTo(StockController.class.getMethod("getStock", String.class), tradingTransaction.getStock().getId()).withSelfRel());
+            }
 
             tradingTransactionDto.add(linkTo(TradingTransactionController.class.getMethod("getTransaction", UUID.class), tradingTransaction.getId()).withSelfRel());
         } catch (final NoSuchMethodException ex) {

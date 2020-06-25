@@ -7,8 +7,6 @@ import fr.jg.account.dto.estate.tradingAccount.financialmodeling.FinancialModeli
 import fr.jg.account.ports.primary.estate.tradingAccount.StockBusiness;
 import fr.jg.account.services.estate.tradingAccount.FinancialModelingPrepClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +22,12 @@ import java.util.stream.IntStream;
 public class StockScheduler {
 
     @Autowired
-    StockBusiness stockBusiness;
+    private StockBusiness stockBusiness;
 
     @Autowired
-    FinancialModelingPrepClient financialModelingPrepClient;
+    private FinancialModelingPrepClient financialModelingPrepClient;
 
-    @EventListener(ApplicationReadyEvent.class)
+    //    @EventListener(ApplicationReadyEvent.class)
     @Scheduled(cron = "0 0 1 * * FRI")
     public void scheduleOutstandingOnceADay() {
         final List<Stock> stocks = new ArrayList<>();

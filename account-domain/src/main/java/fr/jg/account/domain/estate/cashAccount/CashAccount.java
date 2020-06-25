@@ -38,6 +38,7 @@ public class CashAccount extends BaseEstate {
         this.transactions.add(transactions);
     }
 
+    @Override
     public BigDecimal getBalance() {
         return this.transactions.stream()
                 .filter(transaction -> transaction.getDate().isBefore(LocalDate.now()))
@@ -55,11 +56,6 @@ public class CashAccount extends BaseEstate {
         return getBalance()
                 .multiply(this.yieldRate)
                 .divide(BigDecimal.valueOf(100), this.currency.getDefaultFractionDigits(), Configuration.ROUNDING_MODE);
-    }
-
-    @Override
-    public BigDecimal getTotalValue() {
-        return this.transactions.stream().map(CashTransaction::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
 

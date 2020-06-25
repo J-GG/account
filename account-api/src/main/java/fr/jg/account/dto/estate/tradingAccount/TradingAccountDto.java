@@ -23,7 +23,7 @@ public class TradingAccountDto extends BaseEstateDto<CashAccountDto> {
 
     private BigDecimal stockValue;
 
-    private BigDecimal totalValue;
+    private BigDecimal balance;
 
     public LinkedResourceArray getTransactions() {
         return this.transactions;
@@ -65,12 +65,12 @@ public class TradingAccountDto extends BaseEstateDto<CashAccountDto> {
         this.stockValue = stockValue;
     }
 
-    public BigDecimal getTotalValue() {
-        return this.totalValue;
+    public BigDecimal getBalance() {
+        return this.balance;
     }
 
-    public void setTotalValue(final BigDecimal totalValue) {
-        this.totalValue = totalValue;
+    public void setBalance(final BigDecimal balance) {
+        this.balance = balance;
     }
 
     public static class TransactionDto {

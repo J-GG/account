@@ -46,5 +46,5 @@ public abstract class BaseEstate {
         this.currency = currency;
     }
 
-    public abstract BigDecimal getTotalValue();
+    public abstract BigDecimal getBalance();
 }

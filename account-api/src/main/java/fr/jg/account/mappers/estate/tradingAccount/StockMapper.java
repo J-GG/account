@@ -18,7 +18,9 @@ public abstract class StockMapper extends AbstractMapper<StockDto, Stock, StockM
 
     @AfterMapping
     void afterMappingDomainToModel(final Stock stock, @MappingTarget final StockModel stockModel) {
-        stockModel.setDividend(stock.getDividend().multiply(BigDecimal.valueOf(Math.pow(10, stock.getCurrency().getDefaultFractionDigits()))).longValue());
+        if (stock.getDividend() != null) {
+            stockModel.setDividend(stock.getDividend().multiply(BigDecimal.valueOf(Math.pow(10, stock.getCurrency().getDefaultFractionDigits()))).longValue());
+        }
     }
 
     @AfterMapping
