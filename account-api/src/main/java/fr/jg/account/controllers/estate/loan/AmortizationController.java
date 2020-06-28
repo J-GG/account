@@ -42,7 +42,7 @@ public class AmortizationController {
 //        transactionDto.setId(UUID.randomUUID());
 //        transactionDto.setDate(LocalDate.now());
 //        final TradingOperationBuyDto tradingOperationBuyDto = new TradingOperationBuyDto();
-//        tradingOperationBuyDto.setCode("FP.PA");
+//        tradingOperationBuyDto.setId("FP.PA");
 //        tradingOperationBuyDto.setQuantity(10);
 //        tradingOperationBuyDto.setUnitPrice(BigDecimal.valueOf(50));
 //        tradingOperationBuyDto.setFees(BigDecimal.valueOf(10));
@@ -53,7 +53,7 @@ public class AmortizationController {
 //        transactionDto2.setId(UUID.randomUUID());
 //        transactionDto2.setDate(LocalDate.now());
 //        final TradingOperationBuyDto tradingOperationBuyDto2 = new TradingOperationBuyDto();
-//        tradingOperationBuyDto2.setCode("FP.PA");
+//        tradingOperationBuyDto2.setId("FP.PA");
 //        tradingOperationBuyDto2.setQuantity(5);
 //        tradingOperationBuyDto2.setUnitPrice(BigDecimal.valueOf(40));
 //        tradingOperationBuyDto2.setFees(BigDecimal.valueOf(10));
@@ -64,7 +64,7 @@ public class AmortizationController {
 //        transactionDto3.setId(UUID.randomUUID());
 //        transactionDto3.setDate(LocalDate.now());
 //        final TradingOperationBuyDto tradingOperationBuyDto3 = new TradingOperationBuyDto();
-//        tradingOperationBuyDto3.setCode("AIR.PA");
+//        tradingOperationBuyDto3.setId("AIR.PA");
 //        tradingOperationBuyDto3.setQuantity(10);
 //        tradingOperationBuyDto3.setUnitPrice(BigDecimal.valueOf(97.32));
 //        tradingOperationBuyDto3.setFees(BigDecimal.valueOf(1.9));
@@ -79,11 +79,11 @@ public class AmortizationController {
 //                tradingAccountDto.setCashValue(tradingAccountDto.getCashValue().add(operation.getAmount()));
 //            } else if (transaction.getOperation() instanceof TradingOperationBuyDto) {
 //                final TradingOperationBuyDto operation = (TradingOperationBuyDto) transaction.getOperation();
-//                final PortfolioStockDto stock = stocks.getOrDefault(operation.getCode(), new PortfolioStockDto());
-//                stock.setCode(operation.getCode());
+//                final PortfolioStockDto stock = stocks.getOrDefault(operation.getId(), new PortfolioStockDto());
+//                stock.setId(operation.getId());
 //                stock.setQuantity(stock.getQuantity() + operation.getQuantity());
 //                stock.setInvestedAmount(stock.getInvestedAmount().add(operation.getUnitPrice().multiply(BigDecimal.valueOf(operation.getQuantity())).add(operation.getFees())));
-//                stocks.put(operation.getCode(), stock);
+//                stocks.put(operation.getId(), stock);
 //
 //                tradingAccountDto.setCashValue(tradingAccountDto.getCashValue()
 //                        .subtract(operation.getUnitPrice()
@@ -121,7 +121,7 @@ public class AmortizationController {
 //        System.out.println("Evolution : " + BigDecimal.valueOf(100).subtract(tradingAccountDto.getTotalValue().multiply(BigDecimal.valueOf(100).divide(tradingAccountDto.getInvestedAmount(), 2, Configuration.ROUNDING_MODE))).multiply(BigDecimal.valueOf(-1)));
 //        System.out.println("");
 //        tradingAccountDto.getPortfolio().forEach((s, oldStockDto) -> {
-//            System.out.println(oldStockDto.getCode());
+//            System.out.println(oldStockDto.getId());
 //            System.out.println("PRU : " + oldStockDto.getUnitPrice());
 //            System.out.println("Prix actuel : " + oldStockDto.getCurrentPrice());
 //            System.out.println("Quantité : " + oldStockDto.getQuantity());

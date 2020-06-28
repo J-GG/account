@@ -5,6 +5,7 @@ import fr.jg.account.dto.estate.tradingAccount.financialmodeling.FinancialModeli
 import fr.jg.account.dto.estate.tradingAccount.financialmodeling.FinancialModelingHistoricalDividend;
 import fr.jg.account.dto.estate.tradingAccount.financialmodeling.FinancialModelingHistoricalDividendList;
 import fr.jg.account.ports.primary.estate.tradingAccount.StockBusiness;
+import fr.jg.account.ports.primary.estate.tradingAccount.TradingTransactionBusiness;
 import fr.jg.account.services.estate.tradingAccount.FinancialModelingPrepClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,11 +26,14 @@ public class StockScheduler {
     private StockBusiness stockBusiness;
 
     @Autowired
+    private TradingTransactionBusiness tradingTransactionBusiness;
+
+    @Autowired
     private FinancialModelingPrepClient financialModelingPrepClient;
 
     //    @EventListener(ApplicationReadyEvent.class)
     @Scheduled(cron = "0 0 1 * * FRI")
-    public void scheduleOutstandingOnceADay() {
+    public void updateExistingStocks() {
         final List<Stock> stocks = new ArrayList<>();
         this.financialModelingPrepClient.findAllStocks().forEach(financialModelingCompanyDto -> {
             if (financialModelingCompanyDto.getSymbol() != null && financialModelingCompanyDto.getName() != null) {
@@ -72,4 +76,6 @@ public class StockScheduler {
                     }
                 });
     }
+
+
 }

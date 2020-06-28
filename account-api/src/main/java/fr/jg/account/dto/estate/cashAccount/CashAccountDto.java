@@ -13,19 +13,9 @@ public class CashAccountDto extends BaseEstateDto<CashAccountDto> {
 
     private BigDecimal yieldRate;
 
-    private BigDecimal balance;
-
     private BigDecimal futureBalance;
 
     private BigDecimal estimatedAnnualYield;
-
-    public BigDecimal getBalance() {
-        return this.balance;
-    }
-
-    public void setBalance(final BigDecimal balance) {
-        this.balance = balance;
-    }
 
     public BigDecimal getFutureBalance() {
         return this.futureBalance;

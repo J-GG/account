@@ -11,24 +11,18 @@ import fr.jg.account.dto.estate.tradingAccount.TradingAccountDto;
 import fr.jg.account.mappers.AbstractMapper;
 import fr.jg.account.mappers.estate.EstateMapper;
 import fr.jg.account.models.estate.tradingAccount.TradingAccountModel;
-import fr.jg.account.ports.primary.estate.tradingAccount.StockBusiness;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Mapper(componentModel = "spring", uses = {EstateMapper.class, TradingTransactionMapper.class})
 public abstract class TradingAccountMapper extends AbstractMapper<TradingAccountDto, TradingAccount, TradingAccountModel> {
-
-    @Autowired
-    private StockBusiness stockBusiness;
 
     @AfterMapping
     void afterMappingModelToDomain(final TradingAccountModel tradingAccountModel, @MappingTarget final TradingAccount tradingAccount) {
@@ -38,8 +32,14 @@ public abstract class TradingAccountMapper extends AbstractMapper<TradingAccount
                 PortfolioStock stock = portfolio.get(transaction.getStock().getId());
                 if (stock == null) {
                     stock = new PortfolioStock();
-                    stock.setCode(transaction.getStock().getId());
-                    stock.setName(this.stockBusiness.get(transaction.getStock().getId()).getName());
+                    stock.setId(transaction.getStock().getId());
+                    stock.setQuantity(0);
+                    stock.setName(transaction.getStock().getName());
+                    final SortedMap<LocalDate, BigDecimal> history = new TreeMap<>();
+                    history.put(LocalDate.now(), BigDecimal.valueOf(45.844));
+                    history.put(LocalDate.now().minusDays(1), BigDecimal.valueOf(44.45));
+                    stock.setHistory(history);
+                    stock.setDividend(transaction.getStock().getDividend());
                 }
                 stock.setQuantity(stock.getQuantity() + transaction.getQuantity());
                 stock.setInvestedAmount(stock.getInvestedAmount().add(transaction.getUnitPrice().multiply(BigDecimal.valueOf(transaction.getQuantity())).add(transaction.getFees())));

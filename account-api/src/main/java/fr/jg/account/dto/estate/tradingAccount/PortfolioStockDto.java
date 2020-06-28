@@ -9,15 +9,21 @@ import java.util.TreeMap;
 
 public class PortfolioStockDto {
 
-    private String name;
+    private String id;
 
-    private String code;
+    private String name;
 
     private Integer quantity;
 
     private BigDecimal investedAmount;
 
     private SortedMap<LocalDate, BigDecimal> history;
+
+    private BigDecimal currentValue;
+
+    private BigDecimal dividend;
+
+    private BigDecimal estimatedAnnualYield;
 
     public PortfolioStockDto() {
         this.investedAmount = BigDecimal.ZERO;
@@ -32,12 +38,12 @@ public class PortfolioStockDto {
         this.name = name;
     }
 
-    public String getCode() {
-        return this.code;
+    public String getId() {
+        return this.id;
     }
 
-    public void setCode(final String code) {
-        this.code = code;
+    public void setId(final String id) {
+        this.id = id;
     }
 
     public Integer getQuantity() {
@@ -68,11 +74,27 @@ public class PortfolioStockDto {
         this.history = history;
     }
 
-    public BigDecimal getCurrentPrice() {
-        return this.history.values().toArray(new BigDecimal[] {})[this.history.size() - 1];
+    public BigDecimal getCurrentValue() {
+        return this.currentValue;
     }
 
-    public BigDecimal getCurrentValue() {
-        return getCurrentPrice().multiply(BigDecimal.valueOf(this.quantity));
+    public void setCurrentValue(final BigDecimal currentValue) {
+        this.currentValue = currentValue;
+    }
+
+    public BigDecimal getDividend() {
+        return this.dividend;
+    }
+
+    public void setDividend(final BigDecimal dividend) {
+        this.dividend = dividend;
+    }
+
+    public BigDecimal getEstimatedAnnualYield() {
+        return this.estimatedAnnualYield;
+    }
+
+    public void setEstimatedAnnualYield(final BigDecimal estimatedAnnualYield) {
+        this.estimatedAnnualYield = estimatedAnnualYield;
     }
 }

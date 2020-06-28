@@ -22,7 +22,7 @@ public class TradingAccount extends BaseEstate {
     }
 
     public BigDecimal getStockValue() {
-        return BigDecimal.ZERO;
+        return this.portfolio.values().stream().map(PortfolioStock::getCurrentValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getCashValue() {
@@ -52,7 +52,9 @@ public class TradingAccount extends BaseEstate {
     }
 
     public BigDecimal getEstimatedAnnualYield() {
-        return BigDecimal.ZERO;
+        return this.portfolio.values().stream()
+                .map(PortfolioStock::getEstimatedAnnualYield)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public Map<String, PortfolioStock> getPortfolio() {

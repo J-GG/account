@@ -3,6 +3,7 @@ package fr.jg.account.dto.estate;
 import fr.jg.account.dto.LinkedResource;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ public class BaseEstateDto<D extends RepresentationModel<? extends D>> extends R
     private LinkedResource<UUID> estate;
 
     private Currency currency;
+
+    private BigDecimal balance;
 
     public UUID getId() {
         return this.id;
@@ -46,5 +49,13 @@ public class BaseEstateDto<D extends RepresentationModel<? extends D>> extends R
 
     public void setCurrency(final Currency currency) {
         this.currency = currency;
+    }
+
+    public BigDecimal getBalance() {
+        return this.balance;
+    }
+
+    public void setBalance(final BigDecimal balance) {
+        this.balance = balance;
     }
 }

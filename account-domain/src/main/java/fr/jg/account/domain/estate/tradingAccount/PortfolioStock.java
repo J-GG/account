@@ -9,15 +9,17 @@ import java.util.TreeMap;
 
 public class PortfolioStock {
 
-    private String name;
+    private String id;
 
-    private String code;
+    private String name;
 
     private Integer quantity;
 
     private BigDecimal investedAmount;
 
     private SortedMap<LocalDate, BigDecimal> history;
+
+    private BigDecimal dividend;
 
     public PortfolioStock() {
         this.investedAmount = BigDecimal.ZERO;
@@ -32,12 +34,12 @@ public class PortfolioStock {
         this.name = name;
     }
 
-    public String getCode() {
-        return this.code;
+    public String getId() {
+        return this.id;
     }
 
-    public void setCode(final String code) {
-        this.code = code;
+    public void setId(final String id) {
+        this.id = id;
     }
 
     public Integer getQuantity() {
@@ -68,11 +70,19 @@ public class PortfolioStock {
         this.history = history;
     }
 
-    public BigDecimal getCurrentPrice() {
-        return this.history.values().toArray(new BigDecimal[] {})[this.history.size() - 1];
+    public BigDecimal getDividend() {
+        return this.dividend;
+    }
+
+    public void setDividend(final BigDecimal dividend) {
+        this.dividend = dividend;
     }
 
     public BigDecimal getCurrentValue() {
-        return getCurrentPrice().multiply(BigDecimal.valueOf(this.quantity));
+        return ((BigDecimal) ((TreeMap) this.history).lastEntry().getValue()).multiply(BigDecimal.valueOf(this.quantity));
+    }
+
+    public BigDecimal getEstimatedAnnualYield() {
+        return BigDecimal.valueOf(quantity).multiply(dividend);
     }
 }
